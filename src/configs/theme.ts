@@ -13,6 +13,9 @@ const theme = createTheme({
   typography: {
     fontFamily: roboto.style.fontFamily,
   },
+  shape: {
+    borderRadius: 10,
+  },
 });
 
 export default theme;

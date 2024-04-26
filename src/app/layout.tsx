@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import { ThemeProvider } from "@mui/material";
-import theme from "@/config/theme";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import theme from "@/configs/theme";
 
 export const metadata: Metadata = {
   title: "The Task Manager",
@@ -15,6 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AppRouterCacheProvider>
+          <CssBaseline />
           <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </AppRouterCacheProvider>
       </body>
