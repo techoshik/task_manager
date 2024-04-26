@@ -1,4 +1,4 @@
-import { Failure, FailureType } from "@/utils/failure";
+import { Failure, FailureType } from "@/commons/value-objects/failure";
 import { User, signInWithEmailAndPassword } from "firebase/auth";
 import { Either } from "fp-ts/lib/Either";
 import { either } from "fp-ts";

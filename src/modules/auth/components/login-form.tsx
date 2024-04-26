@@ -13,11 +13,12 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { LoginDto } from "../dtos/login-dto";
 import { LoginSchema } from "@/utils/schemas";
-import { loginAtom } from "../auth-atoms";
-import { useAtom } from "jotai";
+import { loggedInUserAtom, loginAtom } from "../auth-atoms";
+import { useAtom, useAtomValue } from "jotai";
 
 export default function LoginForm() {
   const [{ mutate, status, error }] = useAtom(loginAtom);
+  const user = useAtomValue(loggedInUserAtom);
   const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik<LoginDto>({

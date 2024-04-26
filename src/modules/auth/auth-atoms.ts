@@ -1,9 +1,11 @@
-import { atomWithMutation } from "jotai-tanstack-query";
-import { LoginDto } from "./dtos/login-dto";
-import AuthRepository from "./auth-repository";
+import { Failure } from "@/commons/value-objects/failure";
+import { firebaseAuth } from "@/configs/firebase";
+import { User, onAuthStateChanged } from "firebase/auth";
 import { isLeft } from "fp-ts/lib/Either";
-import { User } from "firebase/auth";
-import { Failure } from "@/utils/failure";
+import { atom } from "jotai";
+import { atomWithMutation } from "jotai-tanstack-query";
+import AuthRepository from "./auth-repository";
+import { LoginDto } from "./dtos/login-dto";
 
 export const loginAtom = atomWithMutation<User, LoginDto, Failure>(() => ({
   mutationKey: ["login"],
@@ -16,3 +18,13 @@ export const loginAtom = atomWithMutation<User, LoginDto, Failure>(() => ({
     }
   },
 }));
+
+export const loggedInUserAtom = atom<User | null>(firebaseAuth.currentUser);
+loggedInUserAtom.onMount = (setAtom) => {
+  const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+    setAtom(user);
+  });
+  return () => {
+    unsubscribe();
+  };
+};
