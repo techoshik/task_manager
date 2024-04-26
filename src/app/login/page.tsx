@@ -2,7 +2,7 @@ import LoginForm from "@/modules/auth/components/login-form";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import Image from "next/image";
 
-export default function LoginPage() {
+export default async function LoginPage() {
   return (
     <Grid2 container sx={{ minHeight: "100vh" }}>
       <Grid2

@@ -5,5 +5,6 @@ export default class Strings {
     passwordTooShort: "Password is too short",
     passwordTooLong: "Password is too long",
     passwordMismatch: "Passwords do not match",
+    emailPasswordMismatch: "Email or password is not valid",
   };
 }

@@ -13,15 +13,12 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { LoginDto } from "../dtos/login-dto";
 import { LoginSchema } from "@/utils/schemas";
+import { loginAtom } from "../auth-atoms";
+import { useAtom } from "jotai";
 
 export default function LoginForm() {
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [{ mutate, status, error }] = useAtom(loginAtom);
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   const formik = useFormik<LoginDto>({
     validationSchema: LoginSchema,
@@ -30,16 +27,7 @@ export default function LoginForm() {
       email: "",
       password: "",
     },
-    onSubmit: async (values) => {
-      console.log(values);
-
-      setLoading(true);
-      setErrors([]);
-
-      const tempErrors = [];
-
-      setLoading(false);
-    },
+    onSubmit: (values: LoginDto) => mutate(values),
   });
 
   return (
@@ -62,7 +50,7 @@ export default function LoginForm() {
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
+                  onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
@@ -71,7 +59,7 @@ export default function LoginForm() {
           }}
         />
 
-        {errors.map((error, index) => (
+        {error?.errorList?.map((error, index) => (
           <Alert key={`${index}-${error}`} severity="error">
             {error}
           </Alert>
@@ -80,7 +68,7 @@ export default function LoginForm() {
         <LoadingButton
           variant="contained"
           type="submit"
-          loading={loading}
+          loading={status === "pending"}
           fullWidth={true}
         >
           Login
